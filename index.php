@@ -148,17 +148,17 @@ if (isset($_POST["submit"])) {
                   </div>
                   <div class="form-group">
                     <label>รหัสผ่าน</label>
-                    <!-- &nbsp;<font color='red'>(&nbsp;1234&nbsp;)</font> --> 
+                    <!-- &nbsp;<font color='red'>(&nbsp;1234&nbsp;)</font> -->
                     <input type="password" class="form-control" name="user_password" placeholder="Enter Password" required="" />
                   </div>
                   <button type="submit" class="btn btn-success" name="submit">เข้าสู่ระบบ</button>
                   <a class="btn btn-warning" href="register.php" role="button">สมัครสมาชิก</a>                  
-                </form> 
+                </form>
               </div>
               <div class="d-flex justify-content-center mx-auto">
                 <a href="User.pdf" class="btn btn-primary btn-sm" target="_blank">คู่มือการใช้งานระบบพัสดุ</a>
               </div>
-            </div> 
+            </div>
           </div>
         </div>
       </div>

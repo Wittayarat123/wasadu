@@ -205,6 +205,10 @@ $result4 = mysqli_query($Connection, $sql4);
                                                                 echo "<button type='button' class='btn btn-outline-danger btn-sm'>ไม่อนุมัติ</button>";
                                                             } ?>
                                                         </a>
+                                                        <!--******************************** ปุ่มลบรายการเบิกพัสดุ *************************************** -->
+                                                        <a href='delete_order.php?o_id=<?php echo $row2["o_id"] ?>' onclick="return confirm('ยื่นยันลบรายการเบิก')" ><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></a>
+                                                        </a>
+                                                        <!--******************************** ปุ่มลบรายการเบิกพัสดุ *************************************** -->
                                                     </td>
                                             </tbody>
                                         <?php

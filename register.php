@@ -49,7 +49,7 @@ if (isset($_POST["submit"])) {
             )";
     $objQuery = mysqli_query($Connection, $strSQL);
 
-    header("location:login.php?register=success");
+    header("location:index.php?register=success");
     exit();
   }
 }
