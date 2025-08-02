@@ -32,40 +32,40 @@ session_start();
 
 	//บันทึกการสั่งซื้อลงใน order_detail
 	mysqli_query($Connection, "BEGIN");
-	$sql1	= "insert into order_head values(null, '$dttm', '$user_id', '$s_id', '$o_time_s')";
-	$query1	= mysqli_query($Connection, $sql1);
+	$sql1 = "insert into order_head values(null, '$dttm', '$user_id', '$s_id', '$o_time_s')";
+	$query1 = mysqli_query($Connection, $sql1);
 
 	//ฟังก์ชั่น MAX() จะคืนค่าที่มากที่สุดในคอลัมน์ที่ระบุ ออกมา หรือจะพูดง่ายๆก็ว่า ใช้สำหรับหาค่าที่มากที่สุด นั่นเอง.
 	$sql2 = "select max(o_id) as o_id from order_head where o_dttm='$dttm' ";
-	$query2	= mysqli_query($Connection, $sql2);
+	$query2 = mysqli_query($Connection, $sql2);
 	$row = mysqli_fetch_array($query2);
 	$o_id = $row["o_id"];
 
 	//PHP foreach() เป็นคำสั่งเพื่อนำข้อมูลออกมาจากตัวแปลที่เป็นประเภท array โดยสามารถเรียกค่าได้ทั้ง $key และ $value ของ array
 	foreach ($_SESSION['cart'] as $w_id => $qty) {
-		$sql3	= "select * from tb_wasadu where w_id=$w_id";
-		$query3	= mysqli_query($Connection, $sql3);
-		$row3	= mysqli_fetch_array($query3);
-		$total	= $row3['w_price'] * $qty;
+		$sql3 = "select * from tb_wasadu where w_id=$w_id";
+		$query3 = mysqli_query($Connection, $sql3);
+		$row3 = mysqli_fetch_array($query3);
+		$total = $row3['w_price'] * $qty;
 
-		$sql4	= "insert into order_detail values(null, '$o_id', '$w_id', '$qty', '$total', '$d_spend', '$d_time', '$d_price')";
-		$query4	= mysqli_query($Connection, $sql4);
+		$sql4 = "insert into order_detail values(null, '$o_id', '$w_id', '$qty', '$total', '$d_spend', '$d_time', '$d_price')";
+		$query4 = mysqli_query($Connection, $sql4);
 
 		// // ดึงข้อมูลสต็อกปัจจุบันของพัสดุ
 		// $current_stock_query = "SELECT w_quantity FROM tb_wasadu WHERE w_id = $w_id";
 		// $current_stock_result = mysqli_query($Connection, $current_stock_query);
 		// $current_stock_row = mysqli_fetch_assoc($current_stock_result);
 		// $current_stock = $current_stock_row['w_quantity'];
-
+	
 		// // ตรวจสอบว่าสต็อกเพียงพอหรือไม่
 		// if ($current_stock < $qty) {
 		// 	echo "สต็อกไม่เพียงพอ";
 		// 	exit;
 		// }
-
+	
 		// // คำนวณสต็อกใหม่
 		// $new_stock = $current_stock - $qty;
-
+	
 		// // อัปเดตสต็อกใหม่ในฐานข้อมูล
 		// $update_query = "UPDATE tb_wasadu SET w_quantity = $new_stock WHERE w_id = $w_id";
 		// $update_result = mysqli_query($Connection, $update_query);
@@ -81,12 +81,12 @@ session_start();
 
 	// //แจ้งเตือนผ่านไลน์
 	// define('LINE_API', "https://notify-api.line.me/api/notify");
-
+	
 	// $token = "YfI7SFbHewEQzU9s5NWWYf0Pi8ECBEHPIpHCW1UABSw"; //ใส่Token ที่copy เอาไว้
-
+	
 	// $str = "มีการเบิกพัสดุใหม่: ". "" . $user_name_1 ."  ". $user_name_2 ."" . "http://172.20.250.202/login/index.php";
 	// //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
-
+	
 	// $res = notify_message($str, $token);
 	// //print_r($res);
 	// function notify_message($message, $token)
@@ -108,7 +108,7 @@ session_start();
 	// 	return $res;
 	// }
 	//exit();
-
+	
 
 
 	if ($query1 && $query4) {
