@@ -130,8 +130,8 @@ if ($_SESSION == NULL) {
                                                                 w.w_price,
                                                                 IFNULL( o.sum2, 0 ) AS pay,
                                                                 IFNULL( o.paysub2, 0 ) AS sumpay,
-                                                                IFNULL( o.sum3, 0 ) AS send3,
-                                                                IFNULL( o.paysub3, 0 ) AS send4 
+                                                                IFNULL( o.sum3, 0 ) AS pay3,
+                                                                IFNULL( o.paysub3, 0 ) AS sumpay3
                                                             FROM
                                                                 tb_wasadu w
                                                                 LEFT JOIN tb_count c ON w.c_id = c.c_id
@@ -157,7 +157,8 @@ if ($_SESSION == NULL) {
                                                             WHERE
                                                                 w.w_type = '$w_type' 
                                                                 AND o.w_id 
-                                                                OR o.w_id IS NOT NULL";
+                                                                OR o.w_id IS NOT NULL
+                                                            ORDER BY w.w_name";
                                                 $objQuery = mysqli_query($Connection, $sql);
                                                 ?>
 
@@ -186,10 +187,10 @@ if ($_SESSION == NULL) {
                                                         </td>
 
                                                         <td style="text-align: center ; background-color: #ffc782;">
-                                                            <?php echo $objResult['send3']; ?>
+                                                            <?php echo $objResult['pay3']; ?>
                                                         </td>
                                                         <td style="text-align: center ; background-color: #ffc782;">
-                                                            <?php echo number_format($objResult['send4'], 2); ?>
+                                                            <?php echo number_format($objResult['sumpay3'], 2); ?>
                                                         </td>
 
                                                     </tr>

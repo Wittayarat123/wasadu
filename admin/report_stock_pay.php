@@ -11,14 +11,52 @@ if ($_SESSION == NULL) {
 }
 ?>
 <?php
-$sql1 = "SELECT * FROM tb_pay_order
-order by pay_id desc
-";  //เรียกข้อมูลมาแสดงทั้งหมด
-$result1 = mysqli_query($Connection, $sql1);
+
+$items_per_page = 15; // จำนวนรายการต่อหน้า
+
+// หากมีการส่งค่าหน้ามาจาก URL
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$current_page = max(1, intval($current_page));
+
+// คำนวณข้อมูลเริ่มต้นและสิ้นสุดของข้อมูลในหน้านี้
+$start_index = ($current_page - 1) * $items_per_page;
+
+// ดึงข้อมูลจากฐานข้อมูล
+$sql1 = "SELECT * FROM tb_pay_order order by pay_id desc LIMIT $start_index, $items_per_page";
+$result1 = $Connection->query($sql1);
+
 
 ?>
 
 <?php include '../includes/navber_admin.php'; ?>
+
+<style>
+    .pagination {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pagination li {
+        margin: 0 5px;
+    }
+
+    .pagination a {
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+        color: black;
+    }
+
+    .pagination a:hover {
+        background-color: #ddd;
+    }
+</style>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -63,25 +101,77 @@ $result1 = mysqli_query($Connection, $sql1);
                                 </thead>
                                 <form action="update_status.php" id="form_update" method="post" enctype="multipart/form-data">
                                     <tbody>
-                                        <?php
-                                        while ($row1 = mysqli_fetch_array($result1)) {
-                                        ?>
-                                            <td align="center"><?php echo $row1["pay_id"] ?></td>
-                                            <td><?php echo $row1["pay_head"] ?></td>
-                                            <td><?php echo $row1["pay_d"] ?></td>
-                                            <td><?php echo $row1["pay_t"] ?></td>
-                                            <td><?php echo $row1["pay_time"] ?></td>
-                                            <td align="center">
-                                                <a href='report_stock_2.php?pay_id=<?php echo $row1["pay_id"] ?>' target="_blank"><button type="button" class="btn btn-outline-primary btn-sm">รายงาน</button></a>
-                                            </td>
-                                            <td><?php echo $row1["pay_text"] ?></td>
-                                            
-                                    </tbody>
-                                <?php
+                                        <?php while ($row1 = $result1->fetch_assoc()) {
+
+                                            echo '<td>' . $row1['pay_id'] . '</td>';
+                                            echo '<td>' . $row1['pay_head'] . '</td>';
+                                            echo '<td>' . $row1['pay_d'] . '</td>';
+                                            echo '<td>' . $row1['pay_t'] . '</td>';
+
+                                            $months = array(
+                                                '01' => 'มกราคม',
+                                                '02' => 'กุมภาพันธ์',
+                                                '03' => 'มีนาคม',
+                                                '04' => 'เมษายน',
+                                                '05' => 'พฤษภาคม',
+                                                '06' => 'มิถุนายน',
+                                                '07' => 'กรกฎาคม',
+                                                '08' => 'สิงหาคม',
+                                                '09' => 'กันยายน',
+                                                '10' => 'ตุลาคม',
+                                                '11' => 'พฤศจิกายน',
+                                                '12' => 'ธันวาคม'
+                                            );
+                                            // แปลงรูปแบบวันที่
+                                            $dateParts = explode('-', $row1["pay_time"]);
+                                            $thaiDate = (int)$dateParts[2] . ' ' . $months[$dateParts[1]] . ' ' . ($dateParts[0] + 543); // เพิ่ม 543 เพื่อแปลงเป็น พ.ศ.
+
+                                            echo '<td>' . $thaiDate . '</td>';
+                                            echo "<td> <a href='report_stock_2.php?pay_id=" . $row1["pay_id"] . "' target='_blank' ><button type='button' class='btn btn-outline-primary btn-sm'>รายงาน</button></a> </td>";
+                                            echo '<td>' . $row1['pay_text'] . '</td>';
+
+                                            echo '</tbody>';
                                         }
-                                ?>
+
+
+                                        ?>
                                 </form>
                             </table>
+                            <?php
+
+                            // ดึงข้อมูลทั้งหมดจากฐานข้อมูล
+                            $sql = "SELECT COUNT(*) AS total FROM tb_pay_order";
+                            $result = $Connection->query($sql);
+                            $row = $result->fetch_assoc();
+                            $total_items = $row['total'];
+
+                            // คำนวณจำนวนหน้าทั้งหมด
+                            $total_pages = ceil($total_items / $items_per_page);
+
+                            // แสดงปุ่ม Pagination
+                            echo '<ul class="pagination">';
+                            if ($current_page > 1) {
+                                echo '<li><a href="report_stock_pay.php?page=1">First</a></li>';
+                                echo '<li><a href="report_stock_pay.php?page=' . ($current_page - 1) . '">Previous</a></li>';
+                            }
+                            if ($current_page > 3) {
+                                echo '<li>...</li>';
+                            }
+                            $start_page = max(1, $current_page - 2);
+                            $end_page = min($total_pages, $start_page + 4);
+                            for ($page = $start_page; $page <= $end_page; $page++) {
+                                echo '<li><a href="report_stock_pay.php?page=' . $page . '">' . $page . '</a></li>';
+                            }
+                            if ($current_page < $total_pages - 2) {
+                                echo '<li>...</li>';
+                            }
+                            if ($current_page < $total_pages) {
+                                echo '<li><a href="report_stock_pay.php?page=' . ($current_page + 1) . '">Next</a></li>';
+                                echo '<li><a href="report_stock_pay.php?page=' . $total_pages . '">Last</a></li>';
+                            }
+                            echo '</ul>';
+
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -91,6 +181,7 @@ $result1 = mysqli_query($Connection, $sql1);
 </div>
 
 <?php
+
 if (@$_GET['do'] == 'ok') {
     echo '<script type="text/javascript">
           swal("", "เพิ่มข้อมูลแล้ว !!", "success");

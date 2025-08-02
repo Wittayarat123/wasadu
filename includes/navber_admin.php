@@ -55,6 +55,13 @@ if ($_SESSION != NULL) {
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
 
   <style type="text/css">
+
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300&display=swap');
+    body {
+      background-color: #EFEFEF;
+      font-family: 'IBM Plex Sans Thai', sans-serif;
+    }
+
     @media print {
       #hid {
         display: none;
@@ -212,6 +219,13 @@ if ($_SESSION != NULL) {
           </li>
 
           <li class="nav-item">
+            <a href="stock_1.php" class="nav-link">
+              <i class="far fa-chart-bar nav-icon" style="color:#2ECC71"></i>
+              <p>รายงานสต๊อกสินค้า</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a href="report_total.php" class="nav-link">
               <i class="far fa-chart-bar nav-icon" style="color:#2ECC71"></i>
               <p>รวมรายงาน</p>
@@ -240,6 +254,20 @@ if ($_SESSION != NULL) {
           </li>
 
           <li class="nav-item">
+            <a href="report_1.php" class="nav-link">
+              <i class="far fa-chart-bar nav-icon" style="color:#2ECC71"></i>
+              <p>รายงานเบิก/เดือน</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="report_2.php" class="nav-link">
+              <i class="far fa-chart-bar nav-icon" style="color:#2ECC71"></i>
+              <p>รายงานจ่าย/เดือน</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a href="report_agen.php" class="nav-link">
               <i class="far fa-chart-bar nav-icon" style="color:#2ECC71"></i>
               <p>รายงานเบิกตามหน่วยงาน</p>
@@ -249,7 +277,7 @@ if ($_SESSION != NULL) {
           <li class="nav-header">
             <h6><b>เพิ่มข้อมูล</b></h6>
           </li>
-        <li class="nav-item">
+          <li class="nav-item">
             <a href="calendar.php" class="nav-link">
               <i class="fas fa-cogs nav-icon" style="color:#F1C40F"></i>
               <p>ปฏิทิน</p>
@@ -334,6 +362,6 @@ if ($_SESSION != NULL) {
   <script src="../dist/js/adminlte.js"></script>
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../dist/js/pages/dashboard.js"></script>
-  </body>
+</body>
 
 </html>

@@ -124,19 +124,46 @@ $date = date("d/m/Y");
                 </div> -->
                 <div class="col-sm-4 mt-2" align="center">
                     <b>เลขที่:&nbsp;</b>
-                    <?php echo $o_id ; ?>
+                    <?php echo $o_id; ?>
                 </div>
             </div>
             <div class="row mb-1 mt-5">
-                <div class="col-sm-6 mb-5">
+                <div class="col-sm-6 mb-3">
                     <b>เรียน</b> &nbsp;&nbsp;&nbsp;หัวหน้าฝ่ายพัสดุ โรงพยาบาลวังเจ้า
                 </div>
-                <div class="col-sm-6 mb-5 right">
-                    <b> วันที่:&nbsp;&nbsp;&nbsp;
-                        <?php
-                        $objResult123 = mysqli_fetch_array($objQuery123, MYSQLI_ASSOC)
-                        ?>
-                        <?php echo $objResult123["o_dttm"]; ?></b>
+                <div class="col-sm-6 mb-3 right">
+                    <b>วันที่:&nbsp;&nbsp;&nbsp;</b>
+                    <?php
+                    $objResult123 = mysqli_fetch_array($objQuery123, MYSQLI_ASSOC)
+                    ?>
+                    <?php $months = array(
+                        '01' => 'มกราคม',
+                        '02' => 'กุมภาพันธ์',
+                        '03' => 'มีนาคม',
+                        '04' => 'เมษายน',
+                        '05' => 'พฤษภาคม',
+                        '06' => 'มิถุนายน',
+                        '07' => 'กรกฎาคม',
+                        '08' => 'สิงหาคม',
+                        '09' => 'กันยายน',
+                        '10' => 'ตุลาคม',
+                        '11' => 'พฤศจิกายน',
+                        '12' => 'ธันวาคม'
+                    );
+
+                    // แปลงรูปแบบวันที่
+                    $dateParts = explode('-', $objResult123["o_dttm"]);
+                    $thaiDate = (int)$dateParts[2] . ' ' . $months[$dateParts[1]] . ' ' . ($dateParts[0] + 543); // เพิ่ม 543 เพื่อแปลงเป็น พ.ศ.
+                    ?>
+                    <?php echo $thaiDate ?>
+
+                </div>
+
+                <div class="col-sm-6 mb-3">
+
+                </div>
+                <div class="col-sm-6 mb-3 right">
+
                 </div>
 
                 <div class="col-sm-6 mb-3  mx-auto center">
@@ -153,10 +180,10 @@ $date = date("d/m/Y");
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </b> <?php echo $row11["user_name"] . " " . $row11["user_surname"]; ?>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <b>เป็นผู้รับ</b>
                 </div>
 
@@ -230,12 +257,17 @@ $date = date("d/m/Y");
         <div class="container mb-5 mt-5 text-center">
             <div class="row">
                 <div class="col-sm-6 mt-5">
-                    <h6><b>ลงชื่อ: ......................................................... ผู้เบิก</b></h6>
+                    <div class="col mb-4">
+                        <h6><b>ลงชื่อ: ......................................................... ผู้เบิก</b></h6>
+                    </div>
                     <h6><b>( ......................................................... )</b></h6>
                 </div>
 
                 <div class="col-sm-6 mt-5">
-                    <h6><b>ลงชื่อ: ......................................................... ผู้จ่ายพัสดุ</b></h6>
+                    <div class="col mb-4">
+                        <h6><b>ได้จ่ายแล้วเมื่อวันที่.......................................................</b></h6>
+                    </div>
+                    <h6><b>ลงชื่อ: ......................................................... (ผู้จ่าย)</b></h6>
                     <h6><b>( นางสาววรรณภา ชูชื่น )</b></h6>
                 </div>
 
@@ -246,12 +278,19 @@ $date = date("d/m/Y");
                 </div>
 
                 <div class="col-sm-6 mt-5">
-                    <h6><b>ลงชื่อ: ......................................................... ผู้รับพัสดุ</b></h6>
+                    <div class="col mb-4">
+                        <h6><b>ได้ตรวจรับพัสดุถูกต้องแล้ว เมื่อวันที่.........................</b></h6>
+                    </div>
+                    <h6><b>ลงชื่อ: ......................................................... (ผู้รับของ)</b></h6>
                     <h6><b>( <?php echo $row11["user_name"] . " " . $row11["user_surname"]; ?> )</b></h6>
                 </div>
 
                 <div class="col-sm-6 mt-5">
-
+                    <div class="col mb-4">
+                        <h6><b>ลงบัญชีจ่ายพัสดุ เมื่อวันที่............................................</b></h6>
+                    </div>
+                    <h6><b>ลงชื่อ: ......................................................... (ผู้ลงบัญชี)</b></h6>
+                    <h6><b>( นางสาววรรณภา ชูชื่น )</b></h6>
                 </div>
 
                 <div class="col-sm-6 mt-5">

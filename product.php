@@ -314,7 +314,7 @@ if ($date1 >= $objResult123['start'] && $date1 <= $objResult123['end']) {
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print"]
+        "buttons": []
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       $('#example2').DataTable({
         "paging": true,
@@ -327,6 +327,7 @@ if ($date1 >= $objResult123['start'] && $date1 <= $objResult123['end']) {
       });
     });
   </script>
+
   <script type="text/javascript">
     $(document).ready(function() {
       $('#datatables').DataTable();

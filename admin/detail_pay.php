@@ -28,7 +28,9 @@ a.a_name,
 h.o_dttm,
 d.d_qty,
 d.d_subtotal,
-h.o_id
+h.o_id,
+d.d_spend,
+d.d_time
 FROM
 order_detail d
 LEFT JOIN order_head h ON h.o_id = d.o_id
@@ -183,8 +185,10 @@ $objQuery = mysqli_query($Connection, $sql);
                                         <th scope="col">ชื่อพัสดุ</th>
                                         <th scope="col">ชื่อผู้ขอเบิก</th>
                                         <th scope="col">หน่วยงาน</th>
-                                        <th scope="col">เวลา</th>
-                                        <th scope="col">จำนวน</th>
+                                        <th scope="col">เวลาเบิก</th>
+                                        <th scope="col">เวลาจ่าย</th>
+                                        <th scope="col">จำนวนเบิก</th>
+                                        <th scope="col">จำนวนจ่าย</th>
                                         <th scope="col">ราคารวม</th>
                                         <th scope="col">เลขที่</th>
                                     </tr>
@@ -207,7 +211,13 @@ $objQuery = mysqli_query($Connection, $sql);
                                                 <?php echo $objResult123['o_dttm']; ?>
                                             </td>
                                             <td align="center">
+                                                <?php echo $objResult123['d_time']; ?>
+                                            </td>
+                                            <td align="center">
                                                 <?php echo $objResult123['d_qty']; ?>
+                                            </td>
+                                            <td align="center">
+                                                <?php echo $objResult123['d_spend']; ?>
                                             </td>
                                             <td align="center">
                                                 <?php echo $objResult123['d_subtotal']; ?>

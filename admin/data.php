@@ -21,9 +21,7 @@ include_once '../connections/mysqli.php';
 			var data = google.visualization.arrayToDataTable([
 
 				['ch_name', 'ch_price'],
-
-
-
+				
 				<?php
 				$query = "	SELECT
 								tb_wasadu.w_name,

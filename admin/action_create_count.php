@@ -17,5 +17,5 @@ $objQuery = mysqli_query($Connection, $strSQL) or die(mysqli_error($Connection))
 if ($objQuery) {
     echo '<script>window.location="add_detail_count.php?c_id&do=ok";</script>';
 } else {
-    echo '<script>alert("พบข้อผิดพลาด");window.location="add_detail_count.php";</script>';
+    echo '<script>alert("พบข้อผิดพลาด");window.location="add_detail_count.php?c_id&do=notok";</script>';
 }
