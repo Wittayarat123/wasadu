@@ -93,8 +93,31 @@ $row123 = mysqli_fetch_array($result123)
                                         <td align="center"><?php echo $row["d_subtotal"]; ?></td>
                                         <td align="center"><?php echo $row["d_qty"]; ?></td>
                                         <td align="center">
+                                            <?php
+                                            if ($row['d_time'] == 'IS NULL') {
+                                                echo "วันที่จ่าย: ยังไม่ได้จ่าย";
+                                            } elseif ($row['d_time'] <> 'Null') {
 
-                                            <h5><span class="badge badge-pill badge-success"><?php echo $row["d_time"] ?></span></h5>
+                                                $months = array(
+                                                    '01' => 'มกราคม',
+                                                    '02' => 'กุมภาพันธ์',
+                                                    '03' => 'มีนาคม',
+                                                    '04' => 'เมษายน',
+                                                    '05' => 'พฤษภาคม',
+                                                    '06' => 'มิถุนายน',
+                                                    '07' => 'กรกฎาคม',
+                                                    '08' => 'สิงหาคม',
+                                                    '09' => 'กันยายน',
+                                                    '10' => 'ตุลาคม',
+                                                    '11' => 'พฤศจิกายน',
+                                                    '12' => 'ธันวาคม'
+                                                );
+                                                // แปลงรูปแบบวันที่
+                                                $dateParts2 = explode('-', $row["d_time"]);
+                                                $thaiDate2 = (int)$dateParts2[2] . ' ' . $months[$dateParts2[1]] . ' ' . ($dateParts2[0] + 543); // เพิ่ม 543 เพื่อแปลงเป็น พ.ศ.
+                                            }
+                                            echo " <h5><span class='badge badge-pill badge-success'>วันที่จ่าย: $thaiDate2</span></h5>";
+                                            ?>
 
                                             <form action="update_date.php?o_id=<?php echo $row["o_id"] ?>" method="post">
                                                 <label for="event_date">วันที่: </label>
@@ -111,38 +134,63 @@ $row123 = mysqli_fetch_array($result123)
                                             <?php echo $row["d_price"]; ?>
                                         </td>
                                         <td align="center">
-                                            <?php if ($row['d_qty'] == $row['d_price']) {
+                                            <!-- <?php if ($row['d_qty'] == $row['d_price']) {
 
-                                                echo "<span class='badge badge-pill badge-success'>ลงข้อมูลแล้ว</span>";
-                                            } else {
-                                                echo "<form method='post' class='form-horizontal' action='update_price.php?d_id=" . $row["d_id"] . "&o_id=" . $row["o_id"] . "&w_id=" . $row["w_id"] . "'>";
-                                                echo   " <input type='hidden' name='d_id' value=" . $row["d_id"] . ">";
-                                                echo    "<input type='hidden' name='o_id' value=" . $row["o_id"] . ">";
-                                                echo    "<input type='hidden' name='w_id' value=" . $row["w_id"] . ">";
-                                                echo    "<input type='hidden' name='d_qty' value=" . $row["d_qty"] . ">";
-                                                echo    "<input type='hidden' name='d_subtotal' value=" . $row["d_subtotal"] . ">";
-                                                echo    "<input type='text' name='d_price' id='d_price' maxlength='15' style='width:50px;' />";
-                                                echo    "<button class='btn-outline-primary btn-sm' type='submit'>บันทึก</button>";
-                                                echo "</form>";
-                                            }
+                                                        echo "<span class='badge badge-pill badge-success'>ลงข้อมูลแล้ว</span>";
+                                                    } else {
+                                                        echo "<form method='post' class='form-horizontal' action='update_price.php?d_id=" . $row["d_id"] . "&o_id=" . $row["o_id"] . "&w_id=" . $row["w_id"] . "'>";
+                                                        echo   " <input type='hidden' name='d_id' value=" . $row["d_id"] . ">";
+                                                        echo    "<input type='hidden' name='o_id' value=" . $row["o_id"] . ">";
+                                                        echo    "<input type='hidden' name='w_id' value=" . $row["w_id"] . ">";
+                                                        echo    "<input type='hidden' name='d_qty' value=" . $row["d_qty"] . ">";
+                                                        echo    "<input type='hidden' name='d_subtotal' value=" . $row["d_subtotal"] . ">";
+                                                        echo    "<input type='text' name='d_price' id='d_price' maxlength='15' style='width:50px;' />";
+                                                        echo    "<button class='btn-outline-primary btn-sm' type='submit'>บันทึก</button>";
+                                                        echo "</form>";
+                                                    }
+                                                    ?> -->
+
+                                            <?php
+                                            echo "<form method='post' class='form-horizontal' action='update_price.php?d_id=" . $row["d_id"] . "&o_id=" . $row["o_id"] . "&w_id=" . $row["w_id"] . "'>";
+                                            echo   " <input type='hidden' name='d_id' value=" . $row["d_id"] . ">";
+                                            echo    "<input type='hidden' name='o_id' value=" . $row["o_id"] . ">";
+                                            echo    "<input type='hidden' name='w_id' value=" . $row["w_id"] . ">";
+                                            echo    "<input type='hidden' name='d_qty' value=" . $row["d_qty"] . ">";
+                                            echo    "<input type='hidden' name='d_subtotal' value=" . $row["d_subtotal"] . ">";
+                                            echo    "<input type='text' name='d_price' id='d_price' maxlength='15' style='width:50px;' />";
+                                            echo    "<button class='btn-outline-primary btn-sm' type='submit'>บันทึก</button>";
+                                            echo "</form>";
+
                                             ?>
                                         </td>
                                         <td align="center">
-                                            <?php if ($row['d_qty'] == $row['d_spend']) {
+                                            <!-- <?php if ($row['d_qty'] == $row['d_spend']) {
 
-                                                echo "<span class='badge badge-pill badge-success'>ลงข้อมูลแล้ว</span>";
-                                            } else {
+                                                        echo "<span class='badge badge-pill badge-success'>ลงข้อมูลแล้ว</span>";
+                                                    } else {
 
-                                                echo "<form method='post' class='form-horizontal' action='update.php?d_id=" . $row["d_id"] . "&o_id=" . $row["o_id"] . "&w_id=" . $row["w_id"] . "'>";
-                                                echo   " <input type='hidden' name='d_id' value=" . $row["d_id"] . ">";
-                                                echo    "<input type='hidden' name='o_id' value=" . $row["o_id"] . ">";
-                                                echo    "<input type='hidden' name='w_id' value=" . $row["w_id"] . ">";
-                                                echo    "<input type='hidden' name='d_qty' value=" . $row["d_qty"] . ">";
-                                                echo    "<input type='hidden' name='d_subtotal' value=" . $row["d_subtotal"] . ">";
-                                                echo    "<input type='number' name='d_spend' id='d_spend' maxlength='15' style='width:50px;' />";
-                                                echo    "<button class='btn-outline-primary btn-sm' type='submit'>บันทึก</button>";
-                                                echo "</form>";
-                                            }
+                                                        echo "<form method='post' class='form-horizontal' action='update.php?d_id=" . $row["d_id"] . "&o_id=" . $row["o_id"] . "&w_id=" . $row["w_id"] . "'>";
+                                                        echo   " <input type='hidden' name='d_id' value=" . $row["d_id"] . ">";
+                                                        echo    "<input type='hidden' name='o_id' value=" . $row["o_id"] . ">";
+                                                        echo    "<input type='hidden' name='w_id' value=" . $row["w_id"] . ">";
+                                                        echo    "<input type='hidden' name='d_qty' value=" . $row["d_qty"] . ">";
+                                                        echo    "<input type='hidden' name='d_subtotal' value=" . $row["d_subtotal"] . ">";
+                                                        echo    "<input type='number' name='d_spend' id='d_spend' maxlength='15' style='width:50px;' />";
+                                                        echo    "<button class='btn-outline-primary btn-sm' type='submit'>บันทึก</button>";
+                                                        echo "</form>";
+                                                    }
+                                                    ?> -->
+
+                                            <?php
+                                            echo "<form method='post' class='form-horizontal' action='update.php?d_id=" . $row["d_id"] . "&o_id=" . $row["o_id"] . "&w_id=" . $row["w_id"] . "'>";
+                                            echo   " <input type='hidden' name='d_id' value=" . $row["d_id"] . ">";
+                                            echo    "<input type='hidden' name='o_id' value=" . $row["o_id"] . ">";
+                                            echo    "<input type='hidden' name='w_id' value=" . $row["w_id"] . ">";
+                                            echo    "<input type='hidden' name='d_qty' value=" . $row["d_qty"] . ">";
+                                            echo    "<input type='hidden' name='d_subtotal' value=" . $row["d_subtotal"] . ">";
+                                            echo    "<input type='number' name='d_spend' id='d_spend' maxlength='15' style='width:50px;' />";
+                                            echo    "<button class='btn-outline-primary btn-sm' type='submit'>บันทึก</button>";
+                                            echo "</form>";
                                             ?>
                                         </td>
                                     </tbody>

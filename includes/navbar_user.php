@@ -143,7 +143,7 @@ if ($_SESSION != NULL) {
               </p>
             </a>
           </li>
-          <?php 
+          <!-- <?php 
           $date1 = date("Y-m-d");
           $sql123 = "SELECT * FROM calendar WHERE ('$date1') >= `start` AND ('$date1') <= `end`";  //เรียกข้อมูลมาแสดงทั้งหมด
           $result123 = mysqli_query($Connection, $sql123);
@@ -173,15 +173,15 @@ if ($_SESSION != NULL) {
             // echo "</div>";
             // echo "</div>";
           }
-          ?>
-          <!-- <li class="nav-item">
+          ?> -->
+          <li class="nav-item">
             <a href="product.php" class="nav-link">
               <i class="nav-icon fas fa-cart-arrow-down"></i>
               <p>
                 เบิกพัสดุ
               </p>
             </a>
-          </li> -->
+          </li>
           <li class="nav-item">
             <a href="confirm.php" class="nav-link">
               <i class="nav-icon 	fas fa-shopping-cart"></i>

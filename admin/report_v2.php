@@ -104,10 +104,11 @@ if ($_SESSION == NULL) {
                                                     <th scope="col" style="background-color: #E67781;">รวมเบิกทั้งเดือน</th>
                                                     <th scope="col" style="background-color: #E67781;">รวมราคาเบิก</th>
                                                     <th scope="col" style="background-color: #ff9dff;">รวมจ่ายทั้งเดือน</th>
+                                                    <th scope="col" style="background-color: #ff9dff;">ราคาจ่ายต่อชิ้น</th>
                                                     <th scope="col" style="background-color: #ff9dff;">รวมราคาจ่าย</th>
                                                     <th scope="col" style="background-color: #FEA65E;">จำนวนคงคลัง</th>
                                                     <th scope="col" style="background-color: #FEA65E;">ราคาคงคลัง</th>
-                                                    
+
                                                     <th scope="col" style="background-color: #ffff9f;">จำนวนคงคลังปัจจุบัน</th>
                                                 </tr>
                                             </thead>
@@ -136,14 +137,14 @@ if ($_SESSION == NULL) {
                                                             w.w_price,
                                                             IFNULL( p.sum1, 0 ) AS stock,
                                                             IFNULL( p.paysub1, 0 ) AS sumstock,
-                                                            IFNULL( o.sum2, 0 ) AS pay,
-                                                            IFNULL( o.paysub2, 0 ) AS sumpay,
+                                                            IFNULL( o.sum2, 0 ) AS เบิก,
+                                                            IFNULL( o.paysub2, 0 ) AS ราคาเบิก,
                                                             IFNULL(( p.sum1 - o.sum2 ), 0 ) AS total,
                                                             IFNULL(( p.paysub1 - o.paysub2), 0 ) AS total_2,
                                                             IFNULL( w.w_quantity, 0 ) AS qty,
-                                                            IFNULL( o.sum3, 0 ) AS pay3,
-                                                            IFNULL( o.paysub3, 0 ) AS sumpay3
-                                                           
+                                                            IFNULL( o.sum3, 0 ) AS จ่าย,
+                                                            IFNULL( o.sum4, 0)  AS ราคาต่อหน่วย,
+                                                            IFNULL( o.sum3*o.sum4, 0) AS รวม
                                                         FROM
                                                             tb_wasadu w
                                                             LEFT JOIN tb_count c ON w.c_id = c.c_id
@@ -166,10 +167,10 @@ if ($_SESSION == NULL) {
                                                             LEFT JOIN (
                                                             SELECT
                                                                 o.w_id,
-                                                                IFNULL( SUM( d_qty ), 0 ) AS sum2,
-                                                                IFNULL( SUM( d_qty * w.w_price  ), 0 ) AS paysub2 ,
+                                                            	IFNULL( SUM( d_qty ), 0 ) AS sum2,
+                                                                IFNULL( SUM( d_qty * w.w_price ), 0 ) AS paysub2,
                                                                 IFNULL( SUM( d_spend ), 0 ) AS sum3,
-                                                                IFNULL( SUM( d_spend * d_price ), 0 ) AS paysub3 
+                                                                d_price  AS sum4  
                                                             FROM
                                                                 order_detail o
                                                                 INNER JOIN order_head oh ON oh.o_id = o.o_id 
@@ -211,38 +212,41 @@ if ($_SESSION == NULL) {
                                                             <?php echo number_format($objResult['sumstock'], 2); ?>
                                                         </td>
                                                         <td style="text-align: center ; background-color: #E67781;">
-                                                            <?php echo $objResult['pay']; ?>
+                                                            <?php echo $objResult['เบิก']; ?>
                                                         </td>
                                                         <td style="text-align: center ; background-color: #E67781;">
-                                                            <?php echo number_format($objResult['sumpay'], 2); ?>
+                                                            <?php echo number_format($objResult['ราคาเบิก'], 2); ?>
                                                         </td>
                                                         <td style="text-align: center ; background-color: #ff9dff;">
-                                                            <?php echo $objResult['pay3']; ?>
+                                                            <?php echo $objResult['จ่าย']; ?>
                                                         </td>
                                                         <td style="text-align: center ; background-color: #ff9dff;">
-                                                            <?php echo $objResult['sumpay3']; ?>
+                                                            <?php echo $objResult['ราคาต่อหน่วย']; ?>
                                                         </td>
-                                                        <td style="text-align: center ; background-color: #FEA65E;">                                                        
-                                                            <?php if ($objResult['total'] <= 0 ) {
-                                                                    echo $objResult['stock']; 
-                                                                } else {
-                                                                    echo $objResult['total']; 
-                                                                }
-                                                                ?>
-                                                            
+                                                        <td style="text-align: center ; background-color: #ff9dff;">
+                                                            <?php echo $objResult['รวม']; ?>
                                                         </td>
                                                         <td style="text-align: center ; background-color: #FEA65E;">
-                                                            <?php if ($objResult['total_2'] <= 0 ) {
-                                                                        echo number_format($objResult['sumstock'], 2); 
-                                                                    } else {
-                                                                        echo number_format($objResult['total_2'], 2); 
-                                                                    }
-                                                                    ?>
+                                                            <?php if ($objResult['total'] <= 0) {
+                                                                echo $objResult['stock'];
+                                                            } else {
+                                                                echo $objResult['total'];
+                                                            }
+                                                            ?>
+
+                                                        </td>
+                                                        <td style="text-align: center ; background-color: #FEA65E;">
+                                                            <?php if ($objResult['total_2'] <= 0) {
+                                                                echo number_format($objResult['sumstock'], 2);
+                                                            } else {
+                                                                echo number_format($objResult['total_2'], 2);
+                                                            }
+                                                            ?>
                                                             <!-- <?php echo number_format($objResult['total_2'], 2); ?> -->
                                                         </td>
 
                                                         <td style="text-align: center ; background-color: #ffff9f;">
-                                                        <?php echo $objResult['qty']; ?>
+                                                            <?php echo $objResult['qty']; ?>
                                                         </td>
                                                     </tr>
                                             </tbody>
@@ -301,7 +305,7 @@ if ($_SESSION == NULL) {
                                                 <tr>
                                                     <th colspan="4" style="text-align:center; background-color: #5A9CFE;"> รวม </th>
                                                     <th style="text-align:center ; background-color: #6CC281;"><?php echo $objResult1['sum3']; ?></th>
-                                                    <th style="text-align:center ; background-color: #6CC281;"><?php echo number_format($objResult1['sum4'], 2 ); ?>&nbsp;บาท</th>
+                                                    <th style="text-align:center ; background-color: #6CC281;"><?php echo number_format($objResult1['sum4'], 2); ?>&nbsp;บาท</th>
 
                                                 <?php
                                             }
@@ -380,6 +384,7 @@ if ($_SESSION == NULL) {
                                                 $objQuery1111 = mysqli_query($Connection, $sql1111);
                                                 while ($objResult1111 = mysqli_fetch_array($objQuery1111, MYSQLI_ASSOC)) {
                                                 ?>
+                                                    <th style="text-align:center; background-color: #ff9dff;"></th>
                                                     <th style="text-align:center; background-color: #ff9dff;"></th>
                                                     <th style="text-align:center; background-color: #ff9dff;"></th>
                                                 <?php

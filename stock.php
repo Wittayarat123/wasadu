@@ -63,6 +63,7 @@ if ($_SESSION == NULL) {
     margin: auto;
     width: 50%;
   }
+
 </style>
 <?php include 'includes/navbar_user.php'; ?>
 
@@ -122,6 +123,8 @@ if ($date1 >= $objResult123['start'] && $date1 <= $objResult123['end']) {
   echo "</section>";
 }
 ?>
+
+
 <!-- Content Wrapper. Contains page content
 <div class="content-wrapper">
   Content Header (Page header)

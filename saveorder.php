@@ -28,7 +28,7 @@ session_start();
 	$d_spend = "0";
 	$d_price = "0";
 	$d_time = Date("Y-m-d h:i:s");
-	$o_time_s = "0000-00-00 00:00:00" ;
+	$o_time_s = Null;
 
 	//บันทึกการสั่งซื้อลงใน order_detail
 	mysqli_query($Connection, "BEGIN");
@@ -76,37 +76,37 @@ session_start();
 				WHERE u.user_id = '$user_id'";
 	$query123 = mysqli_query($Connection, $sql123);
 	$row = mysqli_fetch_array($query123);
-	$user_name_1 = $row["user_name"]; 
-	$user_name_2 = $row["user_surname"]; 
+	$user_name_1 = $row["user_name"];
+	$user_name_2 = $row["user_surname"];
 
-	//แจ้งเตือนผ่านไลน์
-	define('LINE_API', "https://notify-api.line.me/api/notify");
+	// //แจ้งเตือนผ่านไลน์
+	// define('LINE_API', "https://notify-api.line.me/api/notify");
 
-	$token = "YfI7SFbHewEQzU9s5NWWYf0Pi8ECBEHPIpHCW1UABSw"; //ใส่Token ที่copy เอาไว้
+	// $token = "YfI7SFbHewEQzU9s5NWWYf0Pi8ECBEHPIpHCW1UABSw"; //ใส่Token ที่copy เอาไว้
 
-	$str = "มีการเบิกพัสดุใหม่: ". "" . $user_name_1 ."  ". $user_name_2 ."" . "http://172.20.250.202/login/index.php";
-	//ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
+	// $str = "มีการเบิกพัสดุใหม่: ". "" . $user_name_1 ."  ". $user_name_2 ."" . "http://172.20.250.202/login/index.php";
+	// //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
 
-	$res = notify_message($str, $token);
-	//print_r($res);
-	function notify_message($message, $token)
-	{
-		$queryData = array('message' => $message);
-		$queryData = http_build_query($queryData, '', '&');
-		$headerOptions = array(
-			'http' => array(
-				'method' => 'POST',
-				'header' => "Content-Type: application/x-www-form-urlencoded\r\n"
-					. "Authorization: Bearer " . $token . "\r\n"
-					. "Content-Length: " . strlen($queryData) . "\r\n",
-				'content' => $queryData
-			),
-		);
-		$context = stream_context_create($headerOptions);
-		$result = file_get_contents(LINE_API, FALSE, $context);
-		$res = json_decode($result);
-		return $res;
-	}
+	// $res = notify_message($str, $token);
+	// //print_r($res);
+	// function notify_message($message, $token)
+	// {
+	// 	$queryData = array('message' => $message);
+	// 	$queryData = http_build_query($queryData, '', '&');
+	// 	$headerOptions = array(
+	// 		'http' => array(
+	// 			'method' => 'POST',
+	// 			'header' => "Content-Type: application/x-www-form-urlencoded\r\n"
+	// 				. "Authorization: Bearer " . $token . "\r\n"
+	// 				. "Content-Length: " . strlen($queryData) . "\r\n",
+	// 			'content' => $queryData
+	// 		),
+	// 	);
+	// 	$context = stream_context_create($headerOptions);
+	// 	$result = file_get_contents(LINE_API, FALSE, $context);
+	// 	$res = json_decode($result);
+	// 	return $res;
+	// }
 	//exit();
 
 

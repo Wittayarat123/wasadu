@@ -32,4 +32,8 @@ order_detail (
 )";
 
 $objQuery = mysqli_query($Connection, $strSQL) or die(mysqli_error($Connection));
-
+if ($objQuery) {
+    echo '<script>window.location="status_detail.php?o_id=' . $o_id . '";</script>';
+} else {
+    echo '<script>alert("พบข้อผิดพลาด");window.location="status_detail.php?o_id=' . $o_id . '";</script>';
+}
